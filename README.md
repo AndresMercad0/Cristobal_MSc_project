@@ -1,4 +1,4 @@
-# Data Dictionary — Cristobal's Air Quality Dataset
+# Cristobal's Air Quality Dataset
 
 ## Overview
 
