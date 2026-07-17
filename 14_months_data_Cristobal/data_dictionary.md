@@ -1,46 +1,14 @@
-# Cristobal's Air Quality Dataset
+# Data Dictionary: 14_months_data_Cristobal
 
 ## Overview
 
 This dataset contains **filtered raw data** from the Low-Cost QMUL Air Quality Monitoring Sensor Network, extracted for Cristobal's analysis. Each CSV file corresponds to a single node or reference station and includes only **metadata columns plus temperature, humidity, PM2.5, and PM10** (for low-cost nodes) or **metadata plus PM2.5** (for high-cost reference stations).
 
-**Data Collection Start:** April 16, 2025 (ongoing — see each data folder for its specific end date)
+**Data Collection Period:** April 16, 2025 to June 10, 2026 (~14 months)
 
 **Source:** Raw wide-format CSVs downloaded from a local database server at the QMUL IoT Lab (low-cost nodes 1–7) and the LondonAir API (high-cost reference stations TH2, TH7). No resampling, calibration, or gap-filling has been applied — data is preserved at original collection frequencies.
 
 **Contact:** Andrés A. Mercado-Velázquez ([a.mercadovelazquez@qmul.ac.uk](mailto:a.mercadovelazquez@qmul.ac.uk))
-
----
-
-## Data Folder Structure
-
-Data is delivered in snapshot folders named **`{N}_months_data_Cristobal`**, where `N` is the approximate number of months of data included since the collection start date. Each folder is a self-contained snapshot that contains **the same 9 CSV files** (one per node/station) covering the full period from April 16, 2025 up to the snapshot's end date.
-
-When a new snapshot is generated (e.g., with 12 months of data), a new folder is created. **The previous folder is kept unchanged** for reproducibility.
-
-| Folder | Approximate Period | End Date |
-|--------|--------------------|----------|
-| `10_months_data_Cristobal` | ~10 months | February 15, 2026 |
-| `14_months_data_Cristobal` | ~14 months | June 10, 2026 |
-| *(future snapshots will be added here)* | | |
-
-### Contents of Each Data Folder
-
-Each snapshot folder contains the following 9 CSV files plus a copy of this data dictionary:
-
-| File | Node | Sensor Cost | Measurement Columns |
-|------|------|-------------|---------------------|
-| `node_1_filtered.csv` | node_1 | Low | temperature, humidity, PM2.5, PM10 |
-| `node_2_filtered.csv` | node_2 | Low | temperature, humidity, PM2.5, PM10 |
-| `node_3_filtered.csv` | node_3 | Low | temperature, humidity, PM2.5, PM10 |
-| `node_4_filtered.csv` | node_4 | Low | temperature, humidity, PM2.5, PM10 |
-| `node_5_filtered.csv` | node_5 | Low | temperature, humidity, PM2.5, PM10 |
-| `node_6_filtered.csv` | node_6 | Low | temperature, humidity, PM2.5, PM10 |
-| `node_7_filtered.csv` | node_7 | Low | temperature, humidity, PM2.5, PM10 |
-| `node_TH2_MER_filtered.csv` | node_TH2_MER | High | PM2.5 |
-| `node_TH7_KEMP_filtered.csv` | node_TH7_KEMP | High | PM2.5 |
-
-> **Note:** Row counts and data quality statistics vary between snapshots as the collection period grows. The statistics listed in the [Data Quality](#data-quality-and-processing-notes) section below correspond to the `14_months_data_Cristobal` snapshot and will be updated with each new release.
 
 ---
 
@@ -95,9 +63,25 @@ Each snapshot folder contains the following 9 CSV files plus a copy of this data
 
 ---
 
-## CSV File Naming Convention
+## CSV Files Structure
+
+### File Naming Convention
 
 `{node_id}_filtered.csv`
+
+### Files Included
+
+| File | Node | Sensor Cost | Rows | Measurement Columns |
+|------|------|-------------|------|---------------------|
+| `node_1_filtered.csv` | node_1 | Low | ~856k | temperature, humidity, PM2.5, PM10 |
+| `node_2_filtered.csv` | node_2 | Low | ~1,064k | temperature, humidity, PM2.5, PM10 |
+| `node_3_filtered.csv` | node_3 | Low | ~713k | temperature, humidity, PM2.5, PM10 |
+| `node_4_filtered.csv` | node_4 | Low | ~700k | temperature, humidity, PM2.5, PM10 |
+| `node_5_filtered.csv` | node_5 | Low | ~661k | temperature, humidity, PM2.5, PM10 |
+| `node_6_filtered.csv` | node_6 | Low | ~1,020k | temperature, humidity, PM2.5, PM10 |
+| `node_7_filtered.csv` | node_7 | Low | ~977k | temperature, humidity, PM2.5, PM10 |
+| `node_TH2_MER_filtered.csv` | node_TH2_MER | High | ~40k | PM2.5 |
+| `node_TH7_KEMP_filtered.csv` | node_TH7_KEMP | High | ~40k | PM2.5 |
 
 ---
 
@@ -140,7 +124,7 @@ Each snapshot folder contains the following 9 CSV files plus a copy of this data
 - **Low-cost frequency**: 30 seconds
 - **High-cost frequency**: 15 minutes (900 seconds)
 - **Timezone**: All timestamps in UTC
-- **Period**: From April 16, 2025 to the snapshot's end date (see [Data Folder Structure](#data-folder-structure))
+- **Period**: April 16, 2025 to June 10, 2026
 
 ### Missing Data
 
@@ -152,7 +136,7 @@ Missing data points appear as empty cells. These occur naturally due to sensor i
 - **Low-cost (SPS30)**: Factory-calibrated PM2.5 and PM10 (mass concentration in μg/m³)
 - **High-cost (Met One)**: Continuously calibrated and QA/QC-validated reference measurements
 
-### High-Cost Station Data Quality (`14_months_data_Cristobal`)
+### High-Cost Station Data Quality
 
 | Station | Total Rows | PM2.5 NaN | PM2.5 Range (μg/m³) | PM2.5 Mean (μg/m³) |
 |---------|-----------|-----------|---------------------|---------------------|
@@ -161,8 +145,12 @@ Missing data points appear as empty cells. These occur naturally due to sensor i
 
 **Notes:**
 - Occasional negative values in PM2.5 are artefacts of the reference instrumentation, not download errors.
-- node_TH7_KEMP PM2.5 has 12.77% NaN, concentrated between Dec 2025 and Feb 2026 (probable instrument maintenance).
-- LondonAir applies retroactive QA revisions to already published reference data: in the period shared by both snapshots, 127 TH2 rows and 211 TH7 rows differ from `10_months_data_Cristobal` (fewer than 1% in both cases). For the reference stations, the newest snapshot supersedes the previous one. Low-cost nodes are unaffected: each new snapshot only appends rows.
+- node_TH7_KEMP PM2.5 has 12.77% NaN, concentrated between Dec 2025 and Feb 2026 (probable instrument maintenance; 4,478 of the 5,149 NaN fall in those three months).
+
+### Differences with respect to the `10_months_data_Cristobal` snapshot
+
+- **Low-cost nodes (1–7)**: the previous snapshot is a strict byte-for-byte prefix of this one; all previously delivered rows are unchanged and only new rows were appended.
+- **Reference stations (TH2, TH7)**: LondonAir applies retroactive QA revisions to already published data. In the overlapping period (April 16, 2025 to February 15, 2026), 127 of 29,282 rows changed in TH2 and 211 of 29,330 rows changed in TH7 (fewer than 1% in both cases; some values were invalidated to NaN and some NaN were backfilled with ratified values). For analyses of the reference stations, this snapshot supersedes the previous one.
 
 ### Node Relocation Event
 
@@ -205,4 +193,4 @@ School of Electronic Engineering & Computer Science
 
 ---
 
-*This dataset contains filtered raw environmental measurements (temperature, humidity, PM2.5, PM10) from a network of 7 low-cost air quality monitoring nodes and 2 government reference stations deployed at Queen Mary University of London and King Edward Memorial Park, London, UK. Data collection started April 2025 and is ongoing; each snapshot folder covers a progressively longer period.*
+*This dataset contains filtered raw environmental measurements (temperature, humidity, PM2.5, PM10) from a network of 7 low-cost air quality monitoring nodes and 2 government reference stations deployed at Queen Mary University of London and King Edward Memorial Park, London, UK. Data covers approximately 14 months (April 2025 to June 2026).*
